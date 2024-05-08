@@ -38,6 +38,7 @@ function LoginPage() {
         <Typography sx={{margin : {marginBottom: "40px"}}} variant="h1">Welcome</Typography>
       </Box>
       <Box
+        component="form"
         sx={{ marginBottom: "100px" }}
         display="flex"
         flexDirection="column"
@@ -50,7 +51,6 @@ function LoginPage() {
             border: {border: "none", borderBottom: "5px solid #29292f"},
             margin : {marginBlock: "20px"}
           }}
-          className="login__input"
           onChange={(e) => setUserName(e.target.value)}
           value={userName}
           label="E-mail or Mobile"
@@ -72,7 +72,7 @@ function LoginPage() {
       </Box>
       <Box display="flex" justifyContent="center">
         <Button
-          type="button"
+          type="submit"
           onClick={handleLogin}
           variant="contained"
           sx={{
