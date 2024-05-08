@@ -1,16 +1,24 @@
 import { Box, Typography, TextField, Button } from '@mui/material'
-import React from 'react'
+import React, {useState} from 'react'
 import { useNavigate } from 'react-router-dom'
+import { login } from '../APIs/Axios';
 
 function LoginPage() {
   const navigate = useNavigate();
+  const [userName, setUserName] = useState('')
+  const [password, setPassword] = useState('')
 
-  const handleLogin = (e) => {
-    e.preventDefault()
-    if (true){
-    navigate("/")
+  const handleLogin = async (e) => {
+    try {
+      e.preventDefault();
+      const response = await login(userName, password).then((res) => res.data);
+      if (response.status == "success") {
+        navigate("/");
+      }
+    } catch (e) {
+      console.log(e);
+      alert("Username or password is invalid. Please try again");
     }
-    else return
   };
 
   return (
@@ -19,8 +27,8 @@ function LoginPage() {
         <Typography variant='h1'>Welcome</Typography>
       </Box>
       <Box sx={{marginBottom: "100px"}} display="flex" flexDirection="column" gap="10px">
-        <TextField label='E-mail or Mobile' variant='outlined'></TextField>
-        <TextField label='password' variant='outlined'></TextField>
+        <TextField onChange={e => setUserName(e.target.value)} value={userName} label='E-mail or Mobile' variant='outlined'></TextField>
+        <TextField onChange={e => setPassword(e.target.value)} value={password} label='password' variant='outlined'></TextField>
       </Box>
       <Box display="flex" justifyContent='center'>
         <Button type="button" onClick={handleLogin} variant="contained" sx={{width: 0.8, paddingBlock: "20px", borderRadius:"25px", fontSize: "1.1rem"}}>LOG IN</Button>
