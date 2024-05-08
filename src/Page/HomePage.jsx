@@ -2,7 +2,7 @@ import { Box, Typography, Button, TextField } from "@mui/material";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import LoginPage from "./LoginPage";
-import TaskItem from "../Components/TaskItem";
+import TaskItem from "../Components/TaskList";
 
 function HomePage() {
   const navigate = useNavigate();
@@ -22,11 +22,25 @@ function HomePage() {
     return;
   };
 
+  // Handle Add
   const handleAdd = () => {
     const newTask = [...task];
-    newTask.push(inputTask);
+    newTask.push({id: newTask.length +1, task:inputTask});
     setTask(newTask);
+    setInputTask("")
   };
+
+  // Handle Delete
+  const handleDelete = (id) => {
+    const foundedIndex = task.findIndex(item => item.id === id)
+    if (foundedIndex !== -1) {
+      const newTask = [...task]
+      newTask.splice(foundedIndex, 1)
+      setTask(newTask)
+    }
+    return;
+  }
+
   return (
     <Box
       border="4px solid red"
@@ -34,14 +48,17 @@ function HomePage() {
     >
       <Box>
         <Typography variant="h1">My Todo</Typography>
-        <TextField
-          sx={{ width: "100%" }}
-          onChange={handleChangeInput}
-          value={inputTask}
-          label="new task"
-        ></TextField>
+        <Box display="flex" justifyContent="space-between">
+          <TextField
+            sx={{ width: "90%" }}
+            onChange={handleChangeInput}
+            value={inputTask}
+            label="new task"
+          ></TextField>
+          {inputTask && <Button onClick={handleAdd} sx={{paddingBlock: "18px"}}>Add</Button>}
+        </Box>
       </Box>
-      <TaskItem />
+      {task.map(item => <TaskItem  handleDelete={handleDelete} key={item.id} task={item}/>)}
       <Box sx={{ width: "100%", height: 1 }}>
         <Button
           sx={{ width: "100%", paddingBlock: "20px", borderRadius: "20px" }}
