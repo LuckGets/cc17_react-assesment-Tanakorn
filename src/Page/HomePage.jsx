@@ -3,7 +3,7 @@ import React, { useState,useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import LoginPage from "./LoginPage";
 import TaskItem from "../Components/TaskList";
-import { getAllTodo } from "../APIs/Axios";
+import { createTodo, deleteTodo, getAllTodo,} from "../APIs/Axios";
 
 
 function HomePage() {
@@ -13,10 +13,9 @@ function HomePage() {
   useEffect(() => {
     const fetchAllData = async () => {
     const result = await getAllTodo()
-    console.log(result)
     setTask(result)
     console.log(task)
-    }
+    };
     fetchAllData()
   }, [])
 
@@ -36,22 +35,32 @@ function HomePage() {
   };
 
   // Handle Add
-  const handleAdd = () => {
+  const handleAdd = async () => {
+    try {
+    const res = await createTodo(inputTask)
+    console.log(res)
     const newTask = [...task];
-    newTask.push({id: newTask.length +1, task:inputTask});
+    newTask.push({title:inputTask});
     setTask(newTask);
     setInputTask("")
+    } catch (e) {
+      console.log(e)
+    }
   };
 
   // Handle Delete
-  const handleDelete = (id) => {
+  const handleDelete = async (id) => {
+    try {
+    await deleteTodo(id)
     const foundedIndex = task.findIndex(item => item.id === id)
     if (foundedIndex !== -1) {
       const newTask = [...task]
       newTask.splice(foundedIndex, 1)
       setTask(newTask)
     }
-    return;
+  } catch (e) {
+    console.log(e)
+  }
   }
 
   return (
@@ -71,7 +80,7 @@ function HomePage() {
           {inputTask && <Button onClick={handleAdd} sx={{paddingBlock: "18px"}}>Add</Button>}
         </Box>
       </Box>
-      {task.map(item => <TaskItem  handleDelete={handleDelete} key={item.id} task={item}/>)}
+      {task.map(item => <TaskItem  handleDelete={handleDelete} id={item.id} key={item.id} task={item}/>)}
       <Box sx={{ width: "100%", height: 1 }}>
         <Button
           sx={{ width: "100%", paddingBlock: "20px", borderRadius: "20px" }}

@@ -13,6 +13,7 @@ function LoginPage() {
       e.preventDefault();
       const response = await login(userName, password).then((res) => res.data);
       if (response.status == "success") {
+        alert("Login success! Redirecting you to Home Page.")
         navigate("/");
       }
     } catch (e) {

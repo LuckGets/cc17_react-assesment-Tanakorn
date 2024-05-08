@@ -42,3 +42,41 @@ export const createTodo = async (createTask) => {
     console.log(e)
   }
 }
+
+export const deleteTodo = async (id,title) => {
+  try {
+    await axios.delete(`${baseURL}/v2/todo/${id}?${userId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+  } catch (e) {
+    console.log(e)
+  }
+}
+
+export const updateTodo = async (id, updatedTask) => {
+  try {
+    const response = await axios.patch(`${baseURL}/v2/todo/${id}?${userId}`,updatedTask, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    }).then(res => res.data)
+    console.log(response.data)
+  } catch (e) {
+    console.log(e)
+  }
+}
+
+export const updateCheckbox = async (id, updatedTask) => {
+  try {
+    const response = await axios.patch(`${baseURL}/v2/todo/${id}?${userId}`, {status: updatedTask}, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    }).then(res => res.data)
+    console.log(response.data)
+  } catch (e) {
+    console.log(e)
+  }
+}

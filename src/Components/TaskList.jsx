@@ -1,27 +1,42 @@
 import React, { useState } from "react";
 import { Box, Button, Checkbox, TextField, Typography } from "@mui/material";
+import { updateTodo } from "../APIs/Axios";
 
-export default function TaskList({ task, handleDelete }) {
+export default function TaskList({ task, handleDelete, id }) {
   const [text, setText] = useState(task.title);
   const [newText, setNewText] = useState(task.title);
   const [isEdit, setIsEdit] = useState(false);
+  const [checked, setChecked] = useState(false);
+
+  // Handle checkbox
+  const handleCheckBox = async (event,id) => {
+    console.log(event,id)
+    setChecked(event.target.checked);
+    console.log(!checked)
+    const res = await updateTodo(id, {status : (!checked)});
+  };
 
   // Handle Edit
-  const handleEdit = () => setText(newText);
-
-  const handleOnChange = (e) => setNewText(e.target.value);
+  const handleEdit = async (id) => {
+    setText(newText);
+    const res = await updateTodo(id, {title : newText});
+    console.log(res);
+  };
 
   return (
     <Box display="flex" justifyContent="space-between">
       <Box display="flex" alignItems="center">
         {isEdit ? (
-          <TextField onChange={handleOnChange} value={newText}></TextField>
+          <TextField
+            onChange={(e) => setNewText(e.target.value)}
+            value={newText}
+          ></TextField>
         ) : (
           <>
-            <Checkbox />
+            <Checkbox onChange={e => handleCheckBox(e,id)} checked={checked}/>
             <Typography
               sx={{ cursor: "pointer" }}
-              onClick={e => setIsEdit(!isEdit)}
+              onClick={(e) => setIsEdit(!isEdit)}
               value={text}
               variant="h6"
             >
@@ -33,9 +48,9 @@ export default function TaskList({ task, handleDelete }) {
       <Button
         onClick={(e) => {
           if (!isEdit) {
-            handleDelete(task.id);
+            handleDelete(id);
           } else {
-            handleEdit;
+            handleEdit(id);
           }
           setIsEdit(!isEdit);
         }}
