@@ -1,23 +1,22 @@
 import { Box, Typography, Button, TextField } from "@mui/material";
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import LoginPage from "./LoginPage";
 import TaskItem from "../Components/TaskList";
-import { createTodo, deleteTodo, getAllTodo,} from "../APIs/Axios";
-
+import { createTodo, deleteTodo, getAllTodo } from "../APIs/Axios";
 
 function HomePage() {
   const [task, setTask] = useState([]);
   const [inputTask, setInputTask] = useState("");
-  
+
   useEffect(() => {
     const fetchAllData = async () => {
-    const result = await getAllTodo()
-    setTask(result)
-    console.log(task)
+      const result = await getAllTodo();
+      setTask(result);
+      console.log(task);
     };
-    fetchAllData()
-  }, [])
+    fetchAllData();
+  }, []);
 
   const navigate = useNavigate();
   // set Task state
@@ -37,31 +36,31 @@ function HomePage() {
   // Handle Add
   const handleAdd = async () => {
     try {
-    const res = await createTodo(inputTask)
-    console.log(res)
-    const newTask = [...task];
-    newTask.push({title:inputTask});
-    setTask(newTask);
-    setInputTask("")
+      const res = await createTodo(inputTask);
+      console.log(res);
+      const newTask = [...task];
+      newTask.push({ title: inputTask });
+      setTask(newTask);
+      setInputTask("");
     } catch (e) {
-      console.log(e)
+      console.log(e);
     }
   };
 
   // Handle Delete
   const handleDelete = async (id) => {
     try {
-    await deleteTodo(id)
-    const foundedIndex = task.findIndex(item => item.id === id)
-    if (foundedIndex !== -1) {
-      const newTask = [...task]
-      newTask.splice(foundedIndex, 1)
-      setTask(newTask)
+      await deleteTodo(id);
+      const foundedIndex = task.findIndex((item) => item.id === id);
+      if (foundedIndex !== -1) {
+        const newTask = [...task];
+        newTask.splice(foundedIndex, 1);
+        setTask(newTask);
+      }
+    } catch (e) {
+      console.log(e);
     }
-  } catch (e) {
-    console.log(e)
-  }
-  }
+  };
 
   return (
     <Box
@@ -77,13 +76,30 @@ function HomePage() {
             value={inputTask}
             label="new task"
           ></TextField>
-          {inputTask && <Button onClick={handleAdd} sx={{paddingBlock: "18px"}}>Add</Button>}
+          {inputTask && (
+            <Button onClick={handleAdd} sx={{ paddingBlock: "18px" }}>
+              Add
+            </Button>
+          )}
         </Box>
       </Box>
-      {task.map(item => <TaskItem  handleDelete={handleDelete} id={item.id} key={item.id} task={item}/>)}
+      {task.map((item) => (
+        <TaskItem
+          handleDelete={handleDelete}
+          id={item.id}
+          key={item.id}
+          task={item}
+        />
+      ))}
       <Box sx={{ width: "100%", height: 1 }}>
         <Button
-          sx={{ width: "100%", paddingBlock: "20px", borderRadius: "20px" }}
+          sx={{
+            width: "100%",
+            paddingBlock: "20px",
+            borderRadius: "20px",
+            fontSize: "2rem",
+            backgroundColor: "#29292f"
+          }}
           variant="contained"
           onClick={handleLogOut}
         >
