@@ -1,16 +1,27 @@
 import { Box, Typography, Button, TextField } from "@mui/material";
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import LoginPage from "./LoginPage";
 import TaskItem from "../Components/TaskList";
+import { getAllTodo } from "../APIs/Axios";
 
-const INIT_TASK = [{id: 1, task : 'Playing Game'}, { id: 2,task:'Coding'}, { id: 3,task:'Eating Dinner'}]
 
 function HomePage() {
+  const [task, setTask] = useState([]);
+  const [inputTask, setInputTask] = useState("");
+  
+  useEffect(() => {
+    const fetchAllData = async () => {
+    const result = await getAllTodo()
+    console.log(result)
+    setTask(result)
+    console.log(task)
+    }
+    fetchAllData()
+  }, [])
+
   const navigate = useNavigate();
   // set Task state
-  const [task, setTask] = useState(INIT_TASK || []);
-  const [inputTask, setInputTask] = useState("");
 
   // Handle Change Input
   const handleChangeInput = (e) => setInputTask(e.target.value);

@@ -24,12 +24,21 @@ export const login = async (username,password) => {
 export const getAllTodo = async () => {
   const res = await axios.get(`${baseURL}/v2/todo`,{
     headers: {
-      Authorization: `Bearer ${token}`, // put your token here
+      Authorization: `Bearer ${token}`, 
       },
   }).then(res => res.data)
   return res.data
 }
 
 export const createTodo = async (createTask) => {
-  await axios.post(`${baseURL}/v2/todo?${userId}`, {title: createTask})
+  try {
+  const response = await axios.post(`${baseURL}/v2/todo?${userId}`, {title: createTask}, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  }).then(res => res.data)
+  return response.data
+  } catch (e) {
+    console.log(e)
+  }
 }

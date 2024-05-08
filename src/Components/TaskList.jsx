@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { Box, Button, Checkbox, TextField, Typography } from "@mui/material";
 
 export default function TaskList({ task, handleDelete }) {
-  const [text, setText] = useState(task.task);
-  const [newText, setNewText] = useState(task.task);
+  const [text, setText] = useState(task.title);
+  const [newText, setNewText] = useState(task.title);
   const [isEdit, setIsEdit] = useState(false);
 
   // Handle Edit
@@ -22,10 +22,10 @@ export default function TaskList({ task, handleDelete }) {
             <Typography
               sx={{ cursor: "pointer" }}
               onClick={e => setIsEdit(!isEdit)}
-              value={newText}
+              value={text}
               variant="h6"
             >
-              {newText}
+              {text}
             </Typography>
           </>
         )}
