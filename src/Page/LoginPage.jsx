@@ -14,7 +14,7 @@ function LoginPage() {
       const response = await login(userName, password).then((res) => res.data);
       if (response.status == "success") {
         alert("Login success! Redirecting you to Home Page.");
-        navigate("/");
+        navigate("/home");
       }
     } catch (e) {
       console.log(e);

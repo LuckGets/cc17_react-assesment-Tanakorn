@@ -7,8 +7,8 @@ import LoginPage from '../Page/LoginPage';
 import HomePage from '../Page/HomePage';
 
 const router = createBrowserRouter([
-  {path: '/', element: <HomePage/>},
-  {path: '/login', element: <LoginPage/>}
+  {path: '/', element: <LoginPage/>},
+  {path: '/home', element: <HomePage/>}
 ])
 
 export default function Router() {

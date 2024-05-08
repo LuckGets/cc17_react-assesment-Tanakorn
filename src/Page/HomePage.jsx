@@ -1,9 +1,9 @@
 import { Box, Typography, Button, TextField } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import LoginPage from "./LoginPage";
 import TaskItem from "../Components/TaskList";
 import { createTodo, deleteTodo, getAllTodo } from "../APIs/Axios";
+import Rocket from "../Graphics/rocket-svgrepo-com.png";
 
 function HomePage() {
   const [task, setTask] = useState([]);
@@ -28,7 +28,7 @@ function HomePage() {
     e.preventDefault();
     const logoutResult = confirm("Are you sure you want to logout?");
     if (logoutResult) {
-      navigate("/login");
+      navigate("/");
     }
     return;
   };
@@ -64,21 +64,55 @@ function HomePage() {
 
   return (
     <Box
-      border="4px solid red"
-      sx={{ width: "90vw", height: 1, paddingInline: "40px" }}
+      sx={{
+        width: "90vw",
+        height: 1,
+        paddingInline: { xs: "60px", md: "100px" },
+        marginBlock: "80px",
+      }}
     >
       <Box>
-        <Typography variant="h1">My Todo</Typography>
+        <Box display="flex" justifyContent="space-between" alignItems="center">
+          <Typography variant="h1">Todo-List</Typography>
+          <Box
+            borderRadius={5}
+            backgroundColor="#24242d"
+            sx={{
+              padding: { md: "30px", sm: "10px", xs: "none" },
+              maxWidth: { md: "150px", sm: "80px", xs: "50px" },
+              marginInline:{md:"50px", sm: "10px", xs: "none"}
+            }}
+            marginInline="50px"
+          >
+            <img src={Rocket} width="100%" height="100%"></img>
+          </Box>
+        </Box>
         <Box display="flex" justifyContent="space-between">
           <TextField
-            sx={{ width: "90%" }}
+            sx={{
+              width: "90%",
+              input: { color: "#9494b8", fontSize: "2rem" },
+              label: { color: "#9494b8", fontSize: "2rem" },
+              border: { border: "none", borderBottom: "5px solid #29292f" },
+              margin: { marginBlock: "20px" },
+            }}
             onChange={handleChangeInput}
             value={inputTask}
-            label="new task"
+            label="Add your new task!"
           ></TextField>
           {inputTask && (
-            <Button onClick={handleAdd} sx={{ paddingBlock: "18px" }}>
-              Add
+            <Button
+              variant="contained"
+              onClick={handleAdd}
+              sx={{
+                padding: { paddingInline: "40px", paddingBlock: "10px" },
+                fontSize: "1.5rem",
+                marginInline: "30px",
+                backgroundColor: "#dadada",
+                color: "black",
+              }}
+            >
+              Add!
             </Button>
           )}
         </Box>
@@ -91,14 +125,14 @@ function HomePage() {
           task={item}
         />
       ))}
-      <Box sx={{ width: "100%", height: 1 }}>
+      <Box sx={{ width: "100%", height: 1, margin: { marginBlock: "150px" } }}>
         <Button
           sx={{
             width: "100%",
             paddingBlock: "20px",
             borderRadius: "20px",
             fontSize: "2rem",
-            backgroundColor: "#29292f"
+            backgroundColor: "#29292f",
           }}
           variant="contained"
           onClick={handleLogOut}
