@@ -4,10 +4,12 @@ import { useNavigate } from "react-router-dom";
 import LoginPage from "./LoginPage";
 import TaskItem from "../Components/TaskList";
 
+const INIT_TASK = [{id: 1, task : 'Playing Game'}, { id: 2,task:'Coding'}, { id: 3,task:'Eating Dinner'}]
+
 function HomePage() {
   const navigate = useNavigate();
   // set Task state
-  const [task, setTask] = useState([]);
+  const [task, setTask] = useState(INIT_TASK || []);
   const [inputTask, setInputTask] = useState("");
 
   // Handle Change Input

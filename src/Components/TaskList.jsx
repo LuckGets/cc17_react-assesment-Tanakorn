@@ -22,10 +22,10 @@ export default function TaskList({ task, handleDelete }) {
             <Typography
               sx={{ cursor: "pointer" }}
               onClick={e => setIsEdit(!isEdit)}
-              value={text}
+              value={newText}
               variant="h6"
             >
-              {text}
+              {newText}
             </Typography>
           </>
         )}
